@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R69 高速公路神廟 - 免驗證版</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #ff2a6d;
+            --secondary: #05d9e8;
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e94560;
+        }
+
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg);
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(#2a2a4e 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        /* Logo 樣式 */
+        .logo-img {
+            height: 48px;
+            margin-bottom: 0px;
+            transition: transform 0.3s;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(5, 217, 232, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 登入區塊 */
+        #login-section {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 42, 109, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 新增：輸入框樣式 */
+        .name-input {
+            width: 80%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            margin: 0 auto;
+        }
+        .name-input:focus {
+            box-shadow: 0 0 10px rgba(5, 217, 232, 0.3);
+        }
+
+        .start-btn {
+            background-color: var(--secondary);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .start-btn:hover { 
+            background-color: #04b0bc; 
+            transform: scale(1.02);
+        }
+
+        /* 求籤機本體 */
+        .fortune-machine {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Tenga 籤筒圖片樣式 */
+        .tenga-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+
+        .tenga-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 42, 109, 0.3));
+        }
+
+        .user-footer {
+            margin-top: 25px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            width: 100%;
+            min-height: 50px;
+        }
+
+        .btn-draw {
+            background: linear-gradient(45deg, var(--primary), #d62259);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem; 
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; 
+        }
+
+        .btn-draw:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn-draw:active { transform: scale(0.95); }
+
+        .btn-draw:disabled {
+            filter: grayscale(0.8);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Result Styles */
+        .result-card {
+            width: 100%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .result-number { font-size: 0.9rem; color: #888; margin-bottom: 5px; letter-spacing: 2px; }
+        .result-type { font-size: 1.5rem; color: var(--secondary); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: inline-block; }
+        .result-type.king { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
+        .result-title { font-size: 1.3rem; margin: 15px 0; color: #fff; font-weight: bold; }
+        .result-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid var(--primary); }
+        
+        .result-label { font-size: 0.85rem; color: #aaa; display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+        .result-label i { color: var(--secondary); } 
+        
+        .result-text { font-size: 1rem; line-height: 1.5; color: #eee; }
+        .warning-text { border-left-color: var(--secondary); }
+        .warning-text .result-label i { color: #ffd700; }
+
+        /* 新增：結果頁面顯示姓名的樣式 */
+        .seeker-name {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .shaking { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-1deg); }
+            20%, 80% { transform: translate3d(2px, 0, 0) rotate(2deg); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-4deg); }
+            40%, 60% { transform: translate3d(4px, 0, 0) rotate(4deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>
+        <a href="https://discord.gg/Hw7aVwDXwj" ><img src="r69.png" alt="R69 Logo" class="logo-img"> </a>
+        神廟求雞緣系統
+    </h1>
+
+    <div id="login-section">
+        <p>歡迎來到 R69 高速公路神廟</p>
+        <p style="font-size:0.9rem; color:#aaa;">請輸入您的名字以開始求籤</p>
+        
+        <input type="text" id="username-input" class="name-input" placeholder="請輸入暱稱" maxlength="10">
+        
+        <button onclick="handleGuestLogin()" class="start-btn">
+            <i class="fa-solid fa-play"></i> 開始求籤
+        </button>
+    </div>
+
+    <div class="fortune-machine hidden" id="machine">
+        
+        <div id="start-view">
+            <div class="tenga-container" id="stick-icon">
+                <img src="toss.png" alt="Tenga Fortune" class="tenga-img">
+            </div>
+            <p style="color: #aaa; margin-bottom: 20px;">誠心祈求，宇宙將給你30公分或更多</p>
+            <button class="btn-draw" onclick="drawFortune()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> 開始求籤
+            </button>
+        </div>
+
+        <div id="result-view" class="result-card hidden">
+            
+            <div id="capture-target" style="padding: 20px; border-radius: 15px; background: transparent; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px;padding-top: 10px; ">
+                    <img src="r69.png" style="height: 35px; width: auto; ">
+                </div>
+
+                <div class="seeker-name" id="r-username">求籤者：XXX</div>
+
+                <div class="result-number" id="r-number">【第XX首】</div>
+                <div class="result-type" id="r-type">類型</div>
+                <h2 class="result-title" id="r-title">標題</h2>
+                
+                <div class="result-box">
+                    <span class="result-label"><i class="fa-solid fa-book-open"></i> 知識</span>
+                    <div class="result-text" id="r-knowledge">內容...</div>
+                </div>
+
+                <div class="result-box warning-text">
+                    <span class="result-label"><i class="fa-solid fa-lightbulb"></i> 小提醒</span>
+                    <div class="result-text" id="r-reminder">內容...</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 15px; font-size: 0.7rem; color: #666;">
+                    R69 高速公路 by r-Xing 阿性情趣
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <button id="btn-download" class="btn-draw" style="background: #333; font-size: 1rem;" onclick="downloadImage()">
+                    <i class="fa-solid fa-camera"></i> 保存結果圖片
+                </button>
+                <button class="btn-draw" style="background: transparent; border: 1px solid #555; font-size: 0.9rem;" onclick="location.reload()">
+                    <i class="fa-solid fa-rotate-right"></i> 重置 / 換人玩
+                </button>
+            </div>
+        </div>
+    </div>
+   
+    <div id="user-display" class="user-footer"></div>
+    
+
+</div>
+
+
+<script>
+    // ================= CONFIG 設定區 =================
+    // Google Script 網址 (維持原樣)
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu17WdLCGCGXLS8KHRVd28saBkiP9hlAs6yZ5CoCfS7xQ1BX8rwqyjkqrMG9ox42TWLA/exec'; 
+    // ================================================
+
+    // 完整的籤詩資料庫 (維持原樣)
+    const fortunes = [
+        { id: "01", type: "小雞", title: "無痛進入的溫柔紳士", knowledge: "不需要漫長痛苦的擴張過程，隨時都能滑順進場", reminder: "這能大幅降低伴侶的不適感，適合快速進入狀況的早晨" },
+        { id: "02", type: "大胸", title: "令人窒息的深海擁抱", knowledge: "深埋其中能有效阻隔外界噪音，達到冥想效果", reminder: "請注意對方的呼吸道暢通，愛是沈重的甜蜜負擔" },
+        { id: "03", type: "大胸", title: "地心引力的對抗者", knowledge: "大尺寸帶來的視覺衝擊能瞬間提升腦內多巴胺", reminder: "雖然很壯觀，但背部按摩是這類伴侶最需要的禮物" },
+        { id: "04", type: "大胸", title: "柔軟的夢境枕頭", knowledge: "據說躺在上面入睡，失眠治癒率高達 99%", reminder: "溫柔鄉是英雄塚，小心舒服到忘記辦正事" },
+        { id: "05", type: "大胸", title: "充滿母性的包容力", knowledge: "這份柔軟能激發人類最原始的安全感與依戀", reminder: "撒嬌比硬碰硬更有用，今晚試著當個大孩子吧" },
+        { id: "06", type: "大胸", title: "波動拳的傳承者", knowledge: "物理慣性會產生驚人的晃動美學，這是大自然的奇蹟", reminder: "運動時請準備高支撐性的裝備，保護這份珍貴的資產" },
+        { id: "07", type: "胸", title: "黃金比例的完美主義", knowledge: "符合人體工學的手感，不多不少剛剛好填滿掌心", reminder: "這是最適合各種服裝的衣架子，請多嘗試不同風格" },
+        { id: "08", type: "胸", title: "手掌心的最佳拍檔", knowledge: "C到D罩杯是統計學上最受歡迎的「普世價值」", reminder: "雖沒有極端的視覺衝擊，但耐看度與實用性是最高的" },
+        { id: "09", type: "胸", title: "彈性與形狀的平衡點", knowledge: "脂肪與乳腺比例適中，通常擁有最完美的挺拔度", reminder: "無論是躺著還是站著，都能保持優美的形狀" },
+        { id: "10", type: "胸", title: "隱藏實力的潛力股", knowledge: "穿衣顯瘦脫衣有肉，能給予對方驚喜的反差感", reminder: "內衣的選擇決定了今天的戰鬥力，集中托高效果驚人" },
+        { id: "11", type: "胸", title: "恰到好處的溫柔鄉", knowledge: "不會因為過重造成負擔，也不會讓人感到空虛", reminder: "適合長時間的擁抱與親密接觸，體溫傳遞效率極佳" },
+        { id: "12", type: "胸", title: "側乳美學的教科書", knowledge: "微微露出的側邊線條，殺傷力往往比正面更高", reminder: "選擇一件大袖口的背心，展現若隱若現的誘惑" },
+        { id: "13", type: "胸", title: "掌握節奏的指揮家", knowledge: "重量適中，隨動作晃動的幅度最富有韻律感", reminder: "在騎乘位時能展現最佳的動態平衡，請多加利用" },
+        { id: "14", type: "胸", title: "居家旅行必備良伴", knowledge: "不會對肩頸造成壓力，是長久關係中最舒適的選擇", reminder: "細水長流的幸福，來自於這份恰如其分的剛好" },
+        { id: "15", type: "胸", title: "觸覺系的頂級享受", knowledge: "這份飽滿度最適合揉捏，手感回饋極佳", reminder: "比起觀賞，這是一個更適合「上手」的尺寸" },
+        { id: "16", type: "胸", title: "兩手掌握的幸福", knowledge: "人類雙手合十的空間剛好能完美包覆", reminder: "這是上帝為了擁抱而設計的尺寸，請盡情感受體溫" },
+        { id: "17", type: "小胸", title: "離心跳最近的距離", knowledge: "脂肪層較薄，心跳聲能更直接地傳遞給擁抱的人", reminder: "緊緊相擁時的共鳴感是其他尺寸無法比擬的" },
+        { id: "18", type: "小胸", title: "高敏感的雷達站", knowledge: "神經末梢分佈密度高，敏感度往往是所有尺寸之冠", reminder: "輕輕的觸碰就能引發全身顫慄，前戲請務必溫柔" },
+        { id: "19", type: "小胸", title: "時尚界的超級名模", knowledge: "這是最高級的High Fashion身材，穿什麼都自帶仙氣", reminder: "試試看不穿內衣或穿著寬鬆白襯衫，性感指數破表" },
+        { id: "20", type: "小胸", title: "永不垂墜的青春", knowledge: "地心引力對你無效，到了八十歲依然挺拔如初", reminder: "你是時間的贏家，永遠保持著少女般的輕盈體態" },
+        { id: "21", type: "小胸", title: "精緻的香檳酒杯", knowledge: "小巧玲瓏的形狀如同藝術品，適合細細品味", reminder: "不要用蠻力，這是需要用舌尖與指尖呵護的珍寶" },
+        { id: "22", type: "小胸", title: "激起保護欲的開關", knowledge: "纖細的線條能瞬間激發伴侶最強烈的征服與保護慾", reminder: "適度的示弱與嬌喘，能讓戰鬥力倍增" },
+        { id: "23", type: "小胸", title: "背影殺手的秘密武器", knowledge: "通常搭配著纖細的腰身與美背，視覺焦點在於整體線條", reminder: "露出你的蝴蝶骨與脊椎溝，那是另一個性感帶" },
+        { id: "24", type: "小胸", title: "掌心裡的珠寶", knowledge: "一手掌握不完不算什麼，能完全包覆才是極致的佔有", reminder: "讓對方的手完全覆蓋，感受那份完全屬於他的安心感" },
+        { id: "25", type: "小胸", title: "敏感帶的擴散效應", knowledge: "因為胸部敏感度高，快感容易擴散至全身與乳頭", reminder: "專攻這一點，往往能比直接進攻下半身更快進入狀況" },
+        { id: "26", type: "小胸", title: "輕盈的空氣力學", knowledge: "運動時毫無負擔，讓你在各種高難度體位中靈活自如", reminder: "展現你的柔軟度與體力，這是主場優勢" },
+        { id: "27", type: "小胸", title: "骨感的性感美學", knowledge: "鎖骨與胸骨的線條美，是肉感無法取代的高級色氣", reminder: "在鎖骨放上一顆草莓，視覺效果會非常驚人" },
+        { id: "28", type: "小胸", title: "蘿莉塔的夢幻體質", knowledge: "自帶減齡濾鏡，不管幾歲都保有清純與誘惑並存的特質", reminder: "搭配過膝襪或特定服裝，能開啟新世界的大門" },
+        { id: "29", type: "小胸", title: "零距離的貼合感", knowledge: "在擁抱時，兩人的身體能達到真正的無縫貼合", reminder: "感受彼此皮膚的最大接觸面積，這是最親密的時刻" },
+        { id: "30", type: "小胸", title: "挑逗神經的細節", knowledge: "因為面積小，對方會更專注於愛撫每一個細微之處", reminder: "引導對方的手指畫圈，享受被細心對待的過程" },
+        { id: "31", type: "小胸", title: "獨一無二的微乳韻味", knowledge: "微乳在古希臘藝術中被視為青春與神性的象徵", reminder: "自信就是最好的化妝品，你的美是古典且永恆的" },
+        { id: "32", type: "小雞", title: "你是能偷襲的靈巧型", knowledge: "小尺寸精準度高更容易命中敏感點", reminder: "精準比用力更能造成致命吸引" },
+        { id: "33", type: "籤王", title: "傳說中的極樂天尊", knowledge: "你是萬中選一的天選之人，超越了尺寸與形狀的限制", reminder: "今晚不用做選擇，因為你全都要，請準備好足夠的體力" },
+        { id: "34", type: "小雞", title: "雙管齊下的戰術大師", knowledge: "因為體積精巧，留出了足夠的空間給手指或玩具同時進攻", reminder: "善用「多核心運算」，同時刺激多個點才是王道" },
+        { id: "35", type: "小雞", title: "舌粲蓮花的口技專家", knowledge: "上帝關了一扇門會開一扇窗，通常伴隨著強大的口舌天賦", reminder: "當你的舌頭比本體還靈活時，沒人會在意尺寸" },
+        { id: "36", type: "小雞", title: "後庭花園的探險家", knowledge: "這是探索後庭最安全的尺寸，不易造成受傷或撕裂", reminder: "如果對方對後門開發有興趣，你是最棒的入門導師" },
+        { id: "37", type: "小雞", title: "高頻振動的電動馬達", knowledge: "質量輕所以慣性小，腰部擺動的頻率可以達到極限", reminder: "用快到看不見的殘影速度，征服對方的感官吧" },
+        { id: "38", type: "小雞", title: "深喉嚨的友善大使", knowledge: "這是唯一能讓對方輕鬆展現「深喉嚨」特技而不反胃的尺寸", reminder: "享受被完全吞沒的視覺與觸覺快感，這是你的專屬福利" },
+        { id: "39", type: "小雞", title: "持久戰的馬拉松選手", knowledge: "血液充盈所需量較少，往往能維持更長時間的硬度", reminder: "只要你不累，這場遊戲就可以無限期延長" },
+        { id: "40", type: "小雞", title: "變換體位的體操選手", knowledge: "不會因為長度卡住骨盆，各種刁鑽角度都能輕鬆嘗試", reminder: "試試看那些高難度的瑜伽體位，靈活度是你的武器" },
+        { id: "41", type: "小雞", title: "專攻G點的秘密探針", knowledge: "只要角度對了，短小精幹反而能更精確地反覆摩擦G點", reminder: "使用「勾」的技巧，重點在於針對同一點的連續攻擊" },
+        { id: "42", type: "雞", title: "亞洲標準的模範生", knowledge: "這是大多數玩具與保險套的設計基準，相容性100%", reminder: "你不必擔心買不到合適的裝備，市場是為你設計的" },
+        { id: "43", type: "雞", title: "進可攻退可守的萬能型", knowledge: "既有足夠的存在感，又不至於讓對方受傷，容錯率極高", reminder: "可以溫柔也可以狂野，看對方的反應調整節奏即可" },
+        { id: "44", type: "雞", title: "續航與爆發的平衡點", knowledge: "硬度與持久度通常維持在最佳平衡，不易中途疲軟", reminder: "穩定的輸出比曇花一現的巨物更讓人留戀" },
+        { id: "45", type: "雞", title: "填滿身心的最佳尺寸", knowledge: "能夠觸及大部分敏感區，且剛好填滿陰道前段的高敏感區", reminder: "不必追求頂到肺，那是痛不是爽，你這樣剛剛好" },
+        { id: "46", type: "雞", title: "實戰派的可靠夥伴", knowledge: "在各種數據調查中，這是伴侶滿意度最高的實用尺寸", reminder: "平凡中見偉大，好用才是硬道理" },
+        { id: "47", type: "雞", title: "適合各種體位的萬用鑰匙", knowledge: "無論是傳教士還是背後式，都不會有角度受限的問題", reminder: "換個姿勢再來一次，你是全地形適應的作戰單位" },
+        { id: "48", type: "雞", title: "剛剛好的充實感", knowledge: "不會撐大到讓對方合不攏腿，結束後也能舒適行走", reminder: "完美的性愛是雙方都舒服，而不是單方面的暴力" },
+        { id: "49", type: "雞", title: "隱藏在褲襠裡的驚喜", knowledge: "勃起前後的倍率通常很漂亮，展現生命的蓬勃生機", reminder: "自信地展示你的變化過程，那是雄性魅力的時刻" },
+        { id: "50", type: "雞", title: "節奏大師的基本功", knowledge: "適中的重量讓你容易控制抽插的深淺與快慢", reminder: "九淺一深是為你量身打造的絕技，請勤加練習" },
+        { id: "51", type: "雞", title: "溫柔的破壞者", knowledge: "具備足夠的硬度來撐開通道，又保留了溫存的空間", reminder: "偶爾稍微用力一點，對方會驚訝於你的爆發力" },
+        { id: "52", type: "大雞", title: "衝擊視網膜的巨神兵", knowledge: "光是視覺效果就能讓對方分泌大量腎上腺素與潤滑液", reminder: "掏出來的時候請慢動作，享受觀眾的驚呼聲" },
+        { id: "53", type: "大雞", title: "子宮頸的敲門磚", knowledge: "你是少數能觸碰到人體深處秘密花園的探險家", reminder: "深處很脆弱，請務必控制力道，撞壞了要賠的" },
+        { id: "54", type: "大雞", title: "撐好撐滿的物理霸凌", knowledge: "物理性的填滿感無人能敵，能將內壁撐到極限", reminder: "潤滑液請按箱囤貨，這是你最好的朋友，沒有之一" },
+        { id: "55", type: "大雞", title: "讓人合不攏嘴的兇器", knowledge: "口交對你的伴侶來說是一項艱鉅的吞嚥挑戰", reminder: "不要強求深喉嚨，那是會引發嘔吐反射的極限運動" },
+        { id: "56", type: "大雞", title: "撕裂般的極致快感", knowledge: "痛與爽往往一線之隔，大尺寸能激發受虐的潛在慾望", reminder: "atória" }
+    ];
+
+    let currentUser = null; 
+
+    // ★★★ 1. 處理訪客登入 (取代原有的 window.onload OAuth) ★★★
+    function handleGuestLogin() {
+        const nameInput = document.getElementById('username-input');
+        const name = nameInput.value.trim();
+
+        if (!name) {
+            alert("請輸入一個名字或暱稱！");
+            return;
+        }
+
+        // 建立使用者物件
+        // 這裡我們用 'guest_' 加上名字作為 ID，這樣 Google Sheet 可以記錄這個名字的冷卻時間
+        // 如果想要完全不擋冷卻，可以把 id 改成 `guest_${new Date().getTime()}`
+        currentUser = {
+            id: 'guest_' + name, 
+            username: name,
+            avatar: null // 訪客沒有頭貼
+        };
+
+        checkDailyStatus(currentUser);
+    }
+
+    // ★★★ 2. 時間格式化與檢查狀態 ★★★
+    function formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    async function checkDailyStatus(user) {
+        document.getElementById('login-section').innerHTML = '<p><i class="fa-solid fa-spinner fa-spin"></i> 正在讀取運勢紀錄...</p>';
+        
+        try {
+            const res = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                redirect: 'follow',
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ action: 'check', id: user.id })
+            });
+
+            const data = await res.json();
+
+            // 隱藏登入區，顯示抽籤機
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('machine').classList.remove('hidden');
+            
+            // 設定底部使用者資訊
+            // 因為沒有頭貼，用預設圖示代替
+            const avatarHtml = user.avatar 
+                ? `<img src="${user.avatar}" class="user-avatar" style="width:24px; height:24px; border-radius:50%; border:1px solid #fff;">` 
+                : `<i class="fa-solid fa-user-astronaut" style="font-size:1.2rem; color:#fff;"></i>`;
+
+            document.getElementById('user-display').innerHTML = `
+                <div style="display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.6); padding:6px 15px; border-radius:30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
+                    
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        ${avatarHtml}
+                        <span style="font-weight:bold; font-size:0.9rem; color:#fff;">${user.username}</span>
+                    </div>
+
+                    <div style="width:1px; height:12px; background:rgba(255,255,255,0.3);"></div>
+
+                    <button onclick="location.reload()" style="background:transparent; border:none; color:#ff4d4d; cursor:pointer; font-size:0.85rem; font-weight:bold; display:flex; align-items:center; gap:5px; padding:0; transition: opacity 0.2s;">
+                        <i class="fa-solid fa-right-from-bracket"></i> 離開
+                    </button>
+                </div>
+            `;
+
+            if (data.status === 'cooldown') {
+                let remaining = data.remaining;
+                
+                let historyHTML = '';
+                const historyItem = fortunes.find(f => f.id === data.fortuneId);
+
+                if (historyItem) {
+                    historyHTML = `
+                        <div id="capture-target" style="margin-top:20px; text-align:left; background:var(--card-bg); border-radius:15px; border:1px solid rgba(255,255,255,0.1); overflow:hidden; position:relative;">
+                            
+                             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px; padding-top: 15px;padding-bottom: 15px;">
+                                <img src="r69.png" style="height: 35px; width: auto;">
+                            </div>
+                            
+                            <div class="seeker-name" style="text-align:center; margin-bottom:10px;">求籤者：${user.username}</div>
+
+                            <div style="background:rgba(0,0,0,0.2); padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
+                                <span style="color:#888; font-size:0.8rem;">上次結果</span>
+                                <span style="color:var(--secondary); font-weight:bold;">【第 ${historyItem.id} 首】 ${historyItem.type}</span>
+                            </div>
+                            <div style="padding:20px;">
+                                <h3 style="margin:0 0 15px 0; color:#fff; font-size:1.2rem; text-align:center;">${historyItem.title}</h3>
+                                <div class="result-box" style="margin-bottom:15px;">
+                                    <span class="result-label"><i class="fa-solid fa-book-open"></i> 知識</span>
+                                    <div style="font-size:0.95rem; color:#ddd; line-height:1.4;">${historyItem.knowledge}</div>
+                                </div>
+                                <div class="warning-text result-box" style="border-left: 3px solid var(--secondary); padding-left:10px;">
+                                    <span class="result-label"><i class="fa-solid fa-lightbulb"></i> 小提醒</span>
+                                    <div style="font-size:0.95rem; color:#ddd; line-height:1.4;">${historyItem.reminder}</div>
+                                </div>
+                                 <div style="text-align: center; margin-top: 15px; font-size: 0.7rem; color: #666;">
+                                    R69 高速公路 by r-Xing 阿性情趣
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="btn-download" class="btn-draw" style="background: #333; font-size: 1rem; margin-top:15px; width:100%;" onclick="downloadImage()">
+                            <i class="fa-solid fa-camera"></i> 保存結果圖片
+                        </button>
+                    `;
+                } else {
+                    historyHTML = `
+                        <div style="margin-top:30px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
+                            <p style="font-size: 0.9rem; margin-bottom:5px; color:#aaa;">上次結果</p>
+                            <p style="color: #fff; font-weight:bold; font-size:1.1rem;">${data.history || '資料讀取中...'}</p>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('start-view').innerHTML = `
+                    <div style="padding: 10px; color: #aaa;">
+                        <h2 style="color: var(--secondary); margin-bottom:5px;">賢者模式冷卻中</h2>
+                        <div id="countdown-timer" style="font-size: 3rem; color: var(--primary); font-family: monospace; font-weight: bold; margin: 10px 0; text-shadow: 0 0 10px rgba(255,42,109,0.5);">
+                            ${formatTime(remaining)}
+                        </div>
+                        <p style="font-size:0.9rem;">距離下次求籤還有時間，請複習上次的指引：</p>
+                        ${historyHTML}
+                    </div>
+                `;
+
+                const timerInterval = setInterval(() => {
+                    remaining -= 1000;
+                    if (remaining <= 0) {
+                        clearInterval(timerInterval);
+                        location.reload(); 
+                    } else {
+                        const timerEl = document.getElementById('countdown-timer');
+                        if(timerEl) timerEl.innerText = formatTime(remaining);
+                    }
+                }, 1000);
+            }
+
+        } catch (e) {
+            console.error('Database Error:', e);
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('machine').classList.remove('hidden');
+        }
+    }
+
+    // ★★★ 3. 抽籤功能 ★★★
+    function drawFortune() {
+        const btn = document.querySelector('.btn-draw');
+        btn.disabled = true; 
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 求籤中...';
+
+        const stickIcon = document.getElementById('stick-icon');
+        const startView = document.getElementById('start-view');
+        const resultView = document.getElementById('result-view');
+        
+        stickIcon.classList.add('shaking');
+        
+        const safeFortunes = fortunes.length > 0 ? fortunes : [{id:"00", type:"ERR", title:"資料庫錯誤", knowledge:"", reminder:""}];
+        const randomIndex = Math.floor(Math.random() * safeFortunes.length);
+        const fortune = safeFortunes[randomIndex];
+
+        setTimeout(() => {
+            stickIcon.classList.remove('shaking');
+            
+            // 存檔邏輯 (資料會傳到 Google Sheet，現在 name 是使用者輸入的)
+            if (currentUser) {
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: 'save',
+                        id: currentUser.id,
+                        name: currentUser.username,
+                        result: `[${fortune.type}] ${fortune.title}`,
+                        fortuneId: fortune.id,
+                        type: fortune.type,
+                        title: fortune.title,
+                        knowledge: fortune.knowledge,
+                        reminder: fortune.reminder
+                    })
+                }).catch(err => console.error("Save failed", err));
+            }
+
+            startView.classList.add('hidden');
+            
+            // ★★★ 在這裡將使用者的名字填入結果卡片中，這樣圖片就會包含名字 ★★★
+            document.getElementById('r-username').innerText = `求籤者：${currentUser.username}`;
+
+            document.getElementById('r-number').innerText = `【第 ${fortune.id} 首】`;
+            document.getElementById('r-type').innerText = fortune.type;
+            document.getElementById('r-title').innerText = fortune.title;
+            // 注意：使用 innerText 寫入內容
+            document.getElementById('r-knowledge').innerText = fortune.knowledge;
+            document.getElementById('r-reminder').innerText = fortune.reminder;
+            
+            const typeEl = document.getElementById('r-type');
+            if(fortune.type === '籤王') typeEl.classList.add('king');
+            else typeEl.classList.remove('king');
+
+            resultView.classList.remove('hidden');
+            
+            const downloadBtn = document.getElementById('btn-download');
+            if(downloadBtn) {
+                downloadBtn.style.display = 'inline-flex'; 
+                downloadBtn.innerHTML = '<i class="fa-solid fa-camera"></i> 保存結果圖片';
+                downloadBtn.disabled = false;
+            }
+
+        }, 800);
+    }
+
+    // ★★★ 4. 下載圖片 ★★★
+    function downloadImage() {
+        const target = document.getElementById('capture-target');
+        const btn = document.getElementById('btn-download');
+        
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 圖片生成中...';
+        btn.disabled = true;
+
+        html2canvas(target, {
+            scale: 3, 
+            backgroundColor: '#16213e',
+            useCORS: true
+        }).then(canvas => {
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], "R69_Fortune.png", { type: "image/png" });
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: 'R69 高速公路神廟',
+                            text: `這是 ${currentUser.username} 的今日運勢...🫣`,
+                            files: [file]
+                        });
+                        btn.innerHTML = originalHTML;
+                        btn.disabled = false;
+                    } catch (err) {
+                        console.log("分享被取消", err);
+                        btn.innerHTML = originalHTML;
+                        btn.disabled = false;
+                    }
+                } else {
+                    const link = document.createElement('a');
+                    link.download = `R69_求籤結果_${new Date().getTime()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }
+            }, 'image/png');
+        }).catch(err => {
+            console.error("截圖失敗:", err);
+            alert("圖片生成失敗 😢");
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+        });
+    }
+</script>
+</body>
+</html>
