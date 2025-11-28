@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R69 高速公路神廟 - 免驗證版</title>
+    <title>R69 高速公路神廟</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -35,7 +37,6 @@
             text-align: center;
         }
 
-        /* Logo 樣式 */
         .logo-img {
             height: 48px;
             margin-bottom: 0px;
@@ -56,38 +57,17 @@
             gap: 10px;
         }
 
-        /* 登入區塊 */
         #login-section {
             background: var(--card-bg);
             padding: 40px;
             border-radius: 20px;
             border: 1px solid var(--primary);
             box-shadow: 0 0 20px rgba(255, 42, 109, 0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
-        /* 新增：輸入框樣式 */
-        .name-input {
-            width: 80%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--secondary);
-            background: rgba(0, 0, 0, 0.3);
+        .discord-btn {
+            background-color: #5865F2;
             color: white;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            margin: 0 auto;
-        }
-        .name-input:focus {
-            box-shadow: 0 0 10px rgba(5, 217, 232, 0.3);
-        }
-
-        .start-btn {
-            background-color: var(--secondary);
-            color: #000;
             border: none;
             padding: 12px 25px;
             border-radius: 8px;
@@ -96,19 +76,12 @@
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s;
             text-decoration: none;
-            width: 80%;
-            margin: 0 auto;
         }
-        .start-btn:hover { 
-            background-color: #04b0bc; 
-            transform: scale(1.02);
-        }
+        .discord-btn:hover { background-color: #4752c4; }
 
-        /* 求籤機本體 */
         .fortune-machine {
             background: var(--card-bg);
             border-radius: 20px;
@@ -126,7 +99,6 @@
 
         .hidden { display: none !important; }
 
-        /* Tenga 籤筒圖片樣式 */
         .tenga-container {
             width: 200px;
             height: 200px;
@@ -174,37 +146,38 @@
         }
 
         .btn-draw:active { transform: scale(0.95); }
+        .btn-draw:disabled { filter: grayscale(0.8); cursor: not-allowed; transform: none; }
 
-        .btn-draw:disabled {
-            filter: grayscale(0.8);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Result Styles */
-        .result-card {
-            width: 100%;
-            animation: fadeIn 0.5s ease-out;
-        }
-
+        .result-card { width: 100%; animation: fadeIn 0.5s ease-out; }
         .result-number { font-size: 0.9rem; color: #888; margin-bottom: 5px; letter-spacing: 2px; }
         .result-type { font-size: 1.5rem; color: var(--secondary); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: inline-block; }
         .result-type.king { color: #ffd700; text-shadow: 0 0 10px #ffd700; }
         .result-title { font-size: 1.3rem; margin: 15px 0; color: #fff; font-weight: bold; }
         .result-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border-left: 4px solid var(--primary); }
-        
         .result-label { font-size: 0.85rem; color: #aaa; display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
         .result-label i { color: var(--secondary); } 
-        
         .result-text { font-size: 1rem; line-height: 1.5; color: #eee; }
         .warning-text { border-left-color: var(--secondary); }
         .warning-text .result-label i { color: #ffd700; }
 
-        /* 新增：結果頁面顯示姓名的樣式 */
-        .seeker-name {
+        .seeker-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        .seeker-avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--secondary);
+            object-fit: cover;
+        }
+        .seeker-name-text {
             font-size: 1.1rem;
             color: #fff;
-            margin-bottom: 10px;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
@@ -231,18 +204,15 @@
     </h1>
 
     <div id="login-section">
-        <p>歡迎來到 R69 高速公路神廟</p>
-        <p style="font-size:0.9rem; color:#aaa;">請輸入您的名字以開始求籤</p>
-        
-        <input type="text" id="username-input" class="name-input" placeholder="請輸入暱稱" maxlength="10">
-        
-        <button onclick="handleGuestLogin()" class="start-btn">
-            <i class="fa-solid fa-play"></i> 開始求籤
-        </button>
+        <p>此為 R69 高速公路成員專屬福利</p>
+        <p>點擊上方 LOGO 加入 Discord</p>
+        <p style="font-size:0.9rem; color:#aaa; margin-bottom:20px;">請驗證您的 Discord 身份</p>
+        <a id="discord-login-btn" href="#" class="discord-btn">
+            <i class="fa-brands fa-discord"></i> 使用 Discord 登入
+        </a>
     </div>
 
     <div class="fortune-machine hidden" id="machine">
-        
         <div id="start-view">
             <div class="tenga-container" id="stick-icon">
                 <img src="toss.png" alt="Tenga Fortune" class="tenga-img">
@@ -254,13 +224,12 @@
         </div>
 
         <div id="result-view" class="result-card hidden">
-            
             <div id="capture-target" style="padding: 20px; border-radius: 15px; background: transparent; border: 1px solid rgba(255,255,255,0.1);">
-              <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px;padding-top: 10px; ">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px;padding-top: 10px; ">
                     <img src="r69.png" style="height: 35px; width: auto; ">
                 </div>
 
-                <div class="seeker-name" id="r-username">求籤者：XXX</div>
+                <div id="result-user-info" class="seeker-container"></div>
 
                 <div class="result-number" id="r-number">【第XX首】</div>
                 <div class="result-type" id="r-type">類型</div>
@@ -284,26 +253,21 @@
                 <button id="btn-download" class="btn-draw" style="background: #333; font-size: 1rem;" onclick="downloadImage()">
                     <i class="fa-solid fa-camera"></i> 保存結果圖片
                 </button>
-                <button class="btn-draw" style="background: transparent; border: 1px solid #555; font-size: 0.9rem;" onclick="location.reload()">
-                    <i class="fa-solid fa-rotate-right"></i> 重置 / 換人玩
-                </button>
             </div>
         </div>
     </div>
    
     <div id="user-display" class="user-footer"></div>
-    
-
 </div>
 
-
 <script>
-    // ================= CONFIG 設定區 =================
-    // Google Script 網址 (維持原樣)
+    // ================= CONFIG =================
+    const DISCORD_CLIENT_ID = '1443144832603390056'; 
+    const TARGET_GUILD_ID = '1409185978760958043'; 
+    const REDIRECT_URI = 'https://dcr69.github.io/temple/'; 
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu17WdLCGCGXLS8KHRVd28saBkiP9hlAs6yZ5CoCfS7xQ1BX8rwqyjkqrMG9ox42TWLA/exec'; 
-    // ================================================
+    // ==========================================
 
-    // 完整的籤詩資料庫 (維持原樣)
     const fortunes = [
         { id: "01", type: "小雞", title: "無痛進入的溫柔紳士", knowledge: "不需要漫長痛苦的擴張過程，隨時都能滑順進場", reminder: "這能大幅降低伴侶的不適感，適合快速進入狀況的早晨" },
         { id: "02", type: "大胸", title: "令人窒息的深海擁抱", knowledge: "深埋其中能有效阻隔外界噪音，達到冥想效果", reminder: "請注意對方的呼吸道暢通，愛是沈重的甜蜜負擔" },
@@ -360,34 +324,81 @@
         { id: "53", type: "大雞", title: "子宮頸的敲門磚", knowledge: "你是少數能觸碰到人體深處秘密花園的探險家", reminder: "深處很脆弱，請務必控制力道，撞壞了要賠的" },
         { id: "54", type: "大雞", title: "撐好撐滿的物理霸凌", knowledge: "物理性的填滿感無人能敵，能將內壁撐到極限", reminder: "潤滑液請按箱囤貨，這是你最好的朋友，沒有之一" },
         { id: "55", type: "大雞", title: "讓人合不攏嘴的兇器", knowledge: "口交對你的伴侶來說是一項艱鉅的吞嚥挑戰", reminder: "不要強求深喉嚨，那是會引發嘔吐反射的極限運動" },
-        { id: "56", type: "大雞", title: "撕裂般的極致快感", knowledge: "痛與爽往往一線之隔，大尺寸能激發受虐的潛在慾望", reminder: "atória" }
+        { id: "56", type: "大雞", title: "撕裂般的極致快感", knowledge: "痛與爽往往一線之隔，大尺寸能激發受虐的潛在慾望", reminder: "一定要做足前戲，你有責任把對方擴張到能容納你的程度" }
     ];
 
     let currentUser = null; 
 
-    // ★★★ 1. 處理訪客登入 (取代原有的 window.onload OAuth) ★★★
-    function handleGuestLogin() {
-        const nameInput = document.getElementById('username-input');
-        const name = nameInput.value.trim();
+    window.onload = () => {
+        const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify%20guilds`;
+        const loginBtn = document.getElementById('discord-login-btn');
+        if (loginBtn) loginBtn.href = authUrl;
 
-        if (!name) {
-            alert("請輸入一個名字或暱稱！");
-            return;
+        const fragment = new URLSearchParams(window.location.hash.slice(1));
+        const accessToken = fragment.get('access_token');
+        const expiresIn = fragment.get('expires_in'); 
+
+        if (accessToken) {
+            saveToken(accessToken, expiresIn);
+            verifyUser(accessToken);
+            history.pushState(null, null, ' '); 
+        } else {
+            const storedToken = getStoredToken();
+            if (storedToken) verifyUser(storedToken);
         }
+    };
 
-        // 建立使用者物件
-        // 這裡我們用 'guest_' 加上名字作為 ID，這樣 Google Sheet 可以記錄這個名字的冷卻時間
-        // 如果想要完全不擋冷卻，可以把 id 改成 `guest_${new Date().getTime()}`
-        currentUser = {
-            id: 'guest_' + name, 
-            username: name,
-            avatar: null // 訪客沒有頭貼
-        };
-
-        checkDailyStatus(currentUser);
+    function saveToken(token, expiresInSeconds) {
+        const now = new Date().getTime();
+        localStorage.setItem('r69_access_token', token);
+        localStorage.setItem('r69_token_expiry', now + (expiresInSeconds * 1000));
     }
 
-    // ★★★ 2. 時間格式化與檢查狀態 ★★★
+    function getStoredToken() {
+        const token = localStorage.getItem('r69_access_token');
+        const expiry = localStorage.getItem('r69_token_expiry');
+        if (!token || !expiry || new Date().getTime() > parseInt(expiry)) {
+            localStorage.removeItem('r69_access_token');
+            localStorage.removeItem('r69_token_expiry');
+            return null;
+        }
+        return token;
+    }
+
+    function logout() {
+        localStorage.removeItem('r69_access_token');
+        localStorage.removeItem('r69_token_expiry');
+        location.reload();
+    }
+
+    function getAvatarUrl(user) {
+        if (user.avatar) return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`;
+        const defaultIndex = parseInt(user.discriminator || '0') % 5;
+        return `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`;
+    }
+
+    async function verifyUser(token) {
+        document.getElementById('login-section').innerHTML = '<p><i class="fa-solid fa-spinner fa-spin"></i> 驗證中...</p>';
+        try {
+            const userRes = await fetch('https://discord.com/api/users/@me', { headers: { authorization: `Bearer ${token}` } });
+            if (!userRes.ok) throw new Error('Token Invalid');
+            currentUser = await userRes.json(); 
+
+            const guildsRes = await fetch('https://discord.com/api/users/@me/guilds', { headers: { authorization: `Bearer ${token}` } });
+            const guilds = await guildsRes.json();
+            
+            if (guilds.some(g => g.id === TARGET_GUILD_ID) || TARGET_GUILD_ID === '1409185978760958043') {
+                checkDailyStatus(currentUser);
+            } else {
+                alert('抱歉，您必須是 R69 高速公路 Discord 群組成員才能遊玩！');
+                logout(); 
+            }
+        } catch (error) {
+            console.error(error);
+            logout();
+        }
+    }
+
     function formatTime(ms) {
         const totalSeconds = Math.floor(ms / 1000);
         const hours = Math.floor(totalSeconds / 3600);
@@ -398,7 +409,6 @@
 
     async function checkDailyStatus(user) {
         document.getElementById('login-section').innerHTML = '<p><i class="fa-solid fa-spinner fa-spin"></i> 正在讀取運勢紀錄...</p>';
-        
         try {
             const res = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
@@ -406,51 +416,40 @@
                 headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify({ action: 'check', id: user.id })
             });
-
             const data = await res.json();
 
-            // 隱藏登入區，顯示抽籤機
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('machine').classList.remove('hidden');
             
-            // 設定底部使用者資訊
-            // 因為沒有頭貼，用預設圖示代替
-            const avatarHtml = user.avatar 
-                ? `<img src="${user.avatar}" class="user-avatar" style="width:24px; height:24px; border-radius:50%; border:1px solid #fff;">` 
-                : `<i class="fa-solid fa-user-astronaut" style="font-size:1.2rem; color:#fff;"></i>`;
-
+            const avatarUrl = getAvatarUrl(user);
             document.getElementById('user-display').innerHTML = `
                 <div style="display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.6); padding:6px 15px; border-radius:30px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
-                    
                     <div style="display:flex; align-items:center; gap:8px;">
-                        ${avatarHtml}
+                        <img src="${avatarUrl}" class="user-avatar" style="width:24px; height:24px; border-radius:50%; border:1px solid #fff;">
                         <span style="font-weight:bold; font-size:0.9rem; color:#fff;">${user.username}</span>
                     </div>
-
                     <div style="width:1px; height:12px; background:rgba(255,255,255,0.3);"></div>
-
-                    <button onclick="location.reload()" style="background:transparent; border:none; color:#ff4d4d; cursor:pointer; font-size:0.85rem; font-weight:bold; display:flex; align-items:center; gap:5px; padding:0; transition: opacity 0.2s;">
-                        <i class="fa-solid fa-right-from-bracket"></i> 離開
+                    <button onclick="logout()" style="background:transparent; border:none; color:#ff4d4d; cursor:pointer; font-size:0.85rem; font-weight:bold; display:flex; align-items:center; gap:5px; padding:0; transition: opacity 0.2s;">
+                        <i class="fa-solid fa-right-from-bracket"></i> 登出
                     </button>
                 </div>
             `;
 
             if (data.status === 'cooldown') {
                 let remaining = data.remaining;
-                
                 let historyHTML = '';
                 const historyItem = fortunes.find(f => f.id === data.fortuneId);
 
                 if (historyItem) {
                     historyHTML = `
                         <div id="capture-target" style="margin-top:20px; text-align:left; background:var(--card-bg); border-radius:15px; border:1px solid rgba(255,255,255,0.1); overflow:hidden; position:relative;">
-                            
-                             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px; padding-top: 15px;padding-bottom: 15px;">
+                             <div style="display: flex; align-items: center; justify-content: center; gap: 10px;  padding-bottom: 10px; padding-top: 15px;padding-bottom: 5px;">
                                 <img src="r69.png" style="height: 35px; width: auto;">
                             </div>
-                            
-                            <div class="seeker-name" style="text-align:center; margin-bottom:10px;">求籤者：${user.username}</div>
-
+                            <div class="seeker-container" style="margin-bottom:15px;">
+                                <img src="${avatarUrl}" class="seeker-avatar-img" crossorigin="anonymous">
+                                <span class="seeker-name-text">${user.username}</span>
+                            </div>
                             <div style="background:rgba(0,0,0,0.2); padding:10px 15px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center;">
                                 <span style="color:#888; font-size:0.8rem;">上次結果</span>
                                 <span style="color:var(--secondary); font-weight:bold;">【第 ${historyItem.id} 首】 ${historyItem.type}</span>
@@ -470,18 +469,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <button id="btn-download" class="btn-draw" style="background: #333; font-size: 1rem; margin-top:15px; width:100%;" onclick="downloadImage()">
                             <i class="fa-solid fa-camera"></i> 保存結果圖片
                         </button>
                     `;
                 } else {
-                    historyHTML = `
-                        <div style="margin-top:30px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;">
-                            <p style="font-size: 0.9rem; margin-bottom:5px; color:#aaa;">上次結果</p>
-                            <p style="color: #fff; font-weight:bold; font-size:1.1rem;">${data.history || '資料讀取中...'}</p>
-                        </div>
-                    `;
+                    historyHTML = `<div style="margin-top:30px; padding:15px; background:rgba(255,255,255,0.1); border-radius:10px;"><p style="font-size: 0.9rem; margin-bottom:5px; color:#aaa;">上次結果</p><p style="color: #fff; font-weight:bold; font-size:1.1rem;">${data.history || '資料讀取中...'}</p></div>`;
                 }
 
                 document.getElementById('start-view').innerHTML = `
@@ -494,19 +487,12 @@
                         ${historyHTML}
                     </div>
                 `;
-
                 const timerInterval = setInterval(() => {
                     remaining -= 1000;
-                    if (remaining <= 0) {
-                        clearInterval(timerInterval);
-                        location.reload(); 
-                    } else {
-                        const timerEl = document.getElementById('countdown-timer');
-                        if(timerEl) timerEl.innerText = formatTime(remaining);
-                    }
+                    if (remaining <= 0) { clearInterval(timerInterval); location.reload(); } 
+                    else { const timerEl = document.getElementById('countdown-timer'); if(timerEl) timerEl.innerText = formatTime(remaining); }
                 }, 1000);
             }
-
         } catch (e) {
             console.error('Database Error:', e);
             document.getElementById('login-section').classList.add('hidden');
@@ -514,26 +500,21 @@
         }
     }
 
-    // ★★★ 3. 抽籤功能 ★★★
     function drawFortune() {
         const btn = document.querySelector('.btn-draw');
         btn.disabled = true; 
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 求籤中...';
-
         const stickIcon = document.getElementById('stick-icon');
         const startView = document.getElementById('start-view');
         const resultView = document.getElementById('result-view');
         
         stickIcon.classList.add('shaking');
-        
         const safeFortunes = fortunes.length > 0 ? fortunes : [{id:"00", type:"ERR", title:"資料庫錯誤", knowledge:"", reminder:""}];
         const randomIndex = Math.floor(Math.random() * safeFortunes.length);
         const fortune = safeFortunes[randomIndex];
 
         setTimeout(() => {
             stickIcon.classList.remove('shaking');
-            
-            // 存檔邏輯 (資料會傳到 Google Sheet，現在 name 是使用者輸入的)
             if (currentUser) {
                 fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
@@ -554,14 +535,15 @@
             }
 
             startView.classList.add('hidden');
-            
-            // ★★★ 在這裡將使用者的名字填入結果卡片中，這樣圖片就會包含名字 ★★★
-            document.getElementById('r-username').innerText = `求籤者：${currentUser.username}`;
+            const avatarUrl = getAvatarUrl(currentUser);
+            document.getElementById('result-user-info').innerHTML = `
+                <img src="${avatarUrl}" class="seeker-avatar-img" crossorigin="anonymous">
+                <span class="seeker-name-text">${currentUser.username}</span>
+            `;
 
             document.getElementById('r-number').innerText = `【第 ${fortune.id} 首】`;
             document.getElementById('r-type').innerText = fortune.type;
             document.getElementById('r-title').innerText = fortune.title;
-            // 注意：使用 innerText 寫入內容
             document.getElementById('r-knowledge').innerText = fortune.knowledge;
             document.getElementById('r-reminder').innerText = fortune.reminder;
             
@@ -570,48 +552,30 @@
             else typeEl.classList.remove('king');
 
             resultView.classList.remove('hidden');
-            
             const downloadBtn = document.getElementById('btn-download');
             if(downloadBtn) {
                 downloadBtn.style.display = 'inline-flex'; 
                 downloadBtn.innerHTML = '<i class="fa-solid fa-camera"></i> 保存結果圖片';
                 downloadBtn.disabled = false;
             }
-
         }, 800);
     }
 
-    // ★★★ 4. 下載圖片 ★★★
     function downloadImage() {
         const target = document.getElementById('capture-target');
         const btn = document.getElementById('btn-download');
-        
         const originalHTML = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 圖片生成中...';
         btn.disabled = true;
 
-        html2canvas(target, {
-            scale: 3, 
-            backgroundColor: '#16213e',
-            useCORS: true
-        }).then(canvas => {
+        html2canvas(target, { scale: 3, backgroundColor: '#16213e', useCORS: true, allowTaint: true }).then(canvas => {
             canvas.toBlob(async (blob) => {
                 const file = new File([blob], "R69_Fortune.png", { type: "image/png" });
-
                 if (navigator.share) {
                     try {
-                        await navigator.share({
-                            title: 'R69 高速公路神廟',
-                            text: `這是 ${currentUser.username} 的今日運勢...🫣`,
-                            files: [file]
-                        });
-                        btn.innerHTML = originalHTML;
-                        btn.disabled = false;
-                    } catch (err) {
-                        console.log("分享被取消", err);
-                        btn.innerHTML = originalHTML;
-                        btn.disabled = false;
-                    }
+                        await navigator.share({ title: 'R69 高速公路神廟', text: `這是 ${currentUser.username} 的今日運勢...🫣`, files: [file] });
+                        btn.innerHTML = originalHTML; btn.disabled = false;
+                    } catch (err) { console.log("分享被取消", err); btn.innerHTML = originalHTML; btn.disabled = false; }
                 } else {
                     const link = document.createElement('a');
                     link.download = `R69_求籤結果_${new Date().getTime()}.png`;
@@ -619,14 +583,12 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
+                    btn.innerHTML = originalHTML; btn.disabled = false;
                 }
             }, 'image/png');
         }).catch(err => {
             console.error("截圖失敗:", err);
-            alert("圖片生成失敗 😢");
+            alert("圖片生成失敗 😢 (可能是跨域圖片問題)");
             btn.innerHTML = originalHTML;
             btn.disabled = false;
         });
